@@ -45,10 +45,10 @@ class HomeController extends Controller
 
             $cart->Product_title = $product->title;
 
-            if ($product->discount_price!=null) {
+            if ($product->discount_price != null) {
                 $cart->price = $product->discount_price * $request->quantity;
-            }else{
-                $cart->price=$product->price * $request->quantity;
+            } else {
+                $cart->price = $product->price * $request->quantity;
             }
 
             $cart->image = $product->image;
@@ -59,5 +59,23 @@ class HomeController extends Controller
         } else {
             return redirect('login');
         }
+    }
+    public function show_cart()
+    {
+        if (Auth::id()) {
+            $id = Auth::user()->id;
+            $cart = Cart::where('user_id', '=', $id)->get();
+
+            return view('home.show_cart', compact('cart'));
+        } else {
+            return  redirect('login');
+        }
+    }
+    public function remove_cart($id)
+    {
+        $cart = Cart::find($id);
+        $cart->delete();
+        
+        return redirect()->back();
     }
 }
