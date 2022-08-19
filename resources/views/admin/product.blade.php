@@ -66,8 +66,7 @@
 
                         <div class="div_design">
                             <label>İndirimli Fiyat</label>
-                            <input class="text_color" type="number" name="discount_price" placeholder="İndirimli Fiyat"
-                                required="">
+                            <input class="text_color" type="number" name="discount_price" placeholder="İndirimli Fiyat">
                         </div>
 
                         <div class="div_design">

@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg custom_nav-container d-flex">
             <div class="row m-auto">
                 <div class="col-md-2">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="{{ url('/') }}">
                         <img src="images/logo.png" alt="#" class="w-100" /></a>
                 </div>
                 <div class="col-md-10">
@@ -16,25 +16,25 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
-                                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                                <a class="nav-link" href="{{ url('/') }}">Anasayfa <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pages <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="about.html">About</a></li>
+                                    <li><a href="about.html">Hakkımda</a></li>
                                     <li><a href="testimonial.html">Testimonial</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="product.html">Products</a>
+                                <a class="nav-link" href="product.html">Ürünler</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="blog_list.html">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="contact.html">Contact</a>
+                                <a class="nav-link" href="contact.html">İletişim</a>
                             </li>
 
                             <form class="form-inline d-block">
@@ -55,11 +55,11 @@
                                     
                                 @else
                                     <li class="nav-item">
-                                        <a class="btn btn-primary" href="{{ url('/login') }}" id="logincss">Login</a>
+                                        <a class="btn btn-primary" href="{{ url('/login') }}" id="logincss">Giriş</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="btn btn-success" href="{{ route('register') }}">Register</a>
+                                        <a class="btn btn-success" href="{{ route('register') }}">Kayıt Ol</a>
                                     </li>
                                 @endauth
                             @endif
