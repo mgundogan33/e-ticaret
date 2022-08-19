@@ -57,8 +57,14 @@
 <body>
     <div class="">
         @include('home.header')
-
+        @if (session()->has('message'))
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss='alert' aria-hidden="true">x</button>
+                {{ session()->get('message') }}
+            </div>
+        @endif
         <div class="center">
+
             <table>
                 <tr>
                     <th class="th_deg"> Ürün Başlığı </th>
@@ -76,15 +82,23 @@
                         <th>{{ $cart->quantity }}</th>
                         <th>${{ $cart->price }} </th>
                         <th><img class="img_deg" src="/product/{{ $cart->image }}"></th>
-                        <th><a class="btn btn-danger" onclick="return confirm('Ürünü Kaldırmak İstediğnize Eminmisiniz')" 
-                            href="{{ url('remove_cart', $cart->id) }}">Ürünü Kaldır</a></th>
+                        <th><a class="btn btn-danger"
+                                onclick="return confirm('Ürünü Kaldırmak İstediğnize Eminmisiniz')"
+                                href="{{ url('remove_cart', $cart->id) }}">Ürünü Kaldır</a></th>
                     </tr>
                     <?php $totalprice = $totalprice + $cart->price; ?>
                 @endforeach
             </table>
             <div>
-                <h1 class="total_deg">Toplam Fiyat : $ {{ $totalprice }}</h1>                
+                <h1 class="total_deg">Toplam Fiyat : $ {{ $totalprice }}</h1>
             </div>
+
+            <div>
+                <h1 style="font-size: 25px; padding-bottom:15px; color:blue;">Ödeme Seçenekleri</h1>
+                <a href="{{ url('cash_order') }}" class="btn btn-danger">Kapıda Ödeme</a>
+                <a href="" class="btn btn-danger">Kart İle Ödeme</a>
+            </div>
+
         </div>
     </div>
     <div class="cpy_">
