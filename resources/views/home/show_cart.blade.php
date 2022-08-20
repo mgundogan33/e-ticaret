@@ -96,7 +96,7 @@
             <div>
                 <h1 style="font-size: 25px; padding-bottom:15px; color:blue;">Ödeme Seçenekleri</h1>
                 <a href="{{ url('cash_order') }}" class="btn btn-danger">Kapıda Ödeme</a>
-                <a href="" class="btn btn-danger">Kart İle Ödeme</a>
+                <a href="{{ url('stripe',$totalprice) }}" class="btn btn-danger">Kart İle Ödeme</a>
             </div>
 
         </div>
