@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\Category;
+// use Barryvdh\DomPDF\PDF;
+use PDF;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -89,5 +92,28 @@ class AdminController extends Controller
 
         $product->save();
         return redirect()->back()->with('message', 'Ürün Güncellendi');
+    }
+    public function order()
+    {
+        $order = Order::all();
+
+        return view('admin.order', compact('order'));
+    }
+    public function delivered($id)
+    {
+        $order = Order::find($id);
+        $order->delivery_status = "Teslim Edildi";
+        $order->payment_status = 'Ücret Ödendi';
+
+        $order->save();
+
+        return redirect()->back();
+    }
+    public function print_pdf($id)
+    {
+        $order=Order::find($id);
+        $pdf = PDF::loadView('admin.pdf',compact('order'));
+
+        return $pdf->download('order_details.pdf');
     }
 }

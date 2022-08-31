@@ -22,7 +22,7 @@
                                             <input type="number" name="quantity" value="1" min="1" style="width: 100%;">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="submit" value="Hemen Al" >
+                                            <input type="submit" value="Sepete At" >
                                         </div>
                                     </div>
                                 </form>
