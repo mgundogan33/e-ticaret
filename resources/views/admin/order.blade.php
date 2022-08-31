@@ -54,6 +54,7 @@
                         <th style="padding: 10px;">Resim</th>
                         <th style="padding: 10px;">Teslim Durumu</th>
                         <th style="padding: 10px;">PDF Yazdır</th>
+                        <th style="padding: 10px;">Eposta Gönder</th>
 
                     </tr>
                     @foreach ($order as $order)
@@ -80,6 +81,9 @@
                             </td>
                             <td>
                                 <a href="{{ url('print_pdf',$order->id) }}" class="btn btn-success">PDF Yazdır</a>
+                            </td>
+                            <td>
+                                <a href="{{ url('send_email',$order->id) }}" class="btn btn-info">Eposta Gönder</a>
                             </td>
                         </tr>
                     @endforeach
