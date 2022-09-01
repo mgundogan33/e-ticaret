@@ -39,7 +39,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('show_cart') }}">Sepet</a>
                             </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('show_order') }}">Sipariş</a>
+                            </li>
                             <form class="form-inline d-block">
 
                                 <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">

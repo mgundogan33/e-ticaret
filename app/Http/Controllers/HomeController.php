@@ -38,7 +38,7 @@ class HomeController extends Controller
             $total_delivered = Order::where('delivery_status', '=', 'delivered')->get()->count();
             $total_processing = Order::where('delivery_status', '=', 'processing')->get()->count();
 
-            return view('admin.home', compact('total_product', 'total_order', 'total_user', 'total_revenue','total_delivered','total_processing'));
+            return view('admin.home', compact('total_product', 'total_order', 'total_user', 'total_revenue', 'total_delivered', 'total_processing'));
         } else {
             $product = Product::paginate(9);
             return view('home.userpage', compact('product'));
@@ -173,5 +173,24 @@ class HomeController extends Controller
         Session::flash('success', 'Ödeme başarılı !');
 
         return back();
+    }
+    public function show_order()
+    {
+        if (Auth::id()) {
+            $user = Auth::user();
+            $userid = $user->id;
+            $order = Order::where('user_id', '=', $userid)->get();
+
+            return view('home.order', compact('order'));
+        } else {
+            return redirect('login');
+        }
+    }
+    public function cancel_order($id)
+    {
+        $order = Order::find($id);
+        $order->delivery_status = 'Siparişi İptal Ettin';
+        $order->save();
+        return redirect()->back();
     }
 }
