@@ -100,7 +100,7 @@
 
                     @empty
                         <tr>
-                            <td colspan="17">
+                            <td colspan="12">
                                 Veri Bulunamadı
                             </td>
                         </tr>
