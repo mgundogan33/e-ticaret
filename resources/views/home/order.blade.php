@@ -70,7 +70,7 @@
                         <img height="100" width="180" src="product/{{ $order->image }}">
                     </td>
                     <td>
-                        @if ($order->delivery_status != 'processing')
+                        @if ($order->delivery_status >= 'processing')
                             <a onclick="return confirm('İptal Etmek İstediğinize Eminmisiniz')" class="btn btn-danger"
                                 href="{{ url('cancel_order', $order->id) }}">İptal Et</a>
                         @else

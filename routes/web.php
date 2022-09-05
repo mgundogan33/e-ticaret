@@ -36,7 +36,6 @@ Route::get('/search', [AdminController::class, 'searchdata']);
 
 
 
-
 Route::get('/product_details/{id}', [HomeController::class, 'product_details']);
 Route::post('/add_cart/{id}', [HomeController::class, 'add_cart']);
 Route::get('/show_cart', [HomeController::class, 'show_cart']);
@@ -46,4 +45,6 @@ Route::get('/stripe/{totalprice}', [HomeController::class, 'stripe']);
 Route::post('stripe/{totalprice}', [HomeController::class,'stripePost'])->name('stripe.post');
 Route::get('/show_order', [HomeController::class, 'show_order']);
 Route::get('/cancel_order/{id}', [HomeController::class, 'cancel_order']);
+Route::post('/add_comment', [HomeController::class, 'add_comment']);
+Route::post('/add_reply', [HomeController::class, 'add_reply']);
 

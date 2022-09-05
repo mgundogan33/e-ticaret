@@ -13,15 +13,19 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\Comment;
+use App\Models\Reply;
 
 class HomeController extends Controller
 {
     public function index()
     {
         $product = Product::paginate(9);
-        return view('home.userpage', compact('product'));
-    }
+        $comment = Comment::orderby('id','desc')->get();
+        $reply = Reply::all();
 
+        return view('home.userpage', compact('product', 'comment', 'reply'));
+    }
     public function redirect()
     {
         $usertype = Auth::user()->usertype;
@@ -35,13 +39,17 @@ class HomeController extends Controller
             foreach ($order as $order) {
                 $total_revenue = $total_revenue + $order->price;
             }
+
             $total_delivered = Order::where('delivery_status', '=', 'delivered')->get()->count();
             $total_processing = Order::where('delivery_status', '=', 'processing')->get()->count();
 
             return view('admin.home', compact('total_product', 'total_order', 'total_user', 'total_revenue', 'total_delivered', 'total_processing'));
         } else {
             $product = Product::paginate(9);
-            return view('home.userpage', compact('product'));
+            $comment = Comment::orderby('id','desc')->get();
+            $reply = Reply::all();
+
+            return view('home.userpage', compact('product', 'comment', 'reply'));
         }
     }
     public function product_details($id)
@@ -192,5 +200,36 @@ class HomeController extends Controller
         $order->delivery_status = 'Siparişi İptal Ettin';
         $order->save();
         return redirect()->back();
+    }
+    public function add_comment(Request $request)
+    {
+
+        if (Auth::id()) {
+            $comment = new Comment;
+            $comment->name = Auth::user()->name;
+            $comment->user_id = Auth::user()->id;
+            $comment->comment = $request->comment;
+
+            $comment->save();
+            return redirect()->back();
+        } else {
+            return redirect('login');
+        }
+    }
+    public function add_reply(Request $request)
+    {
+        if (Auth::id()) {
+            $reply = new Reply;
+
+            $reply->name = Auth::user()->name;
+            $reply->user_id = Auth::user()->id;
+            $reply->comment_id = $request->commentId;
+            $reply->reply = $request->reply;
+            $reply->save();
+
+            return redirect()->back();
+        } else {
+            return redirect('login');
+        }
     }
 }

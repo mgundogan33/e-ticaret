@@ -21,6 +21,9 @@
     <link href="home/css/style.css" rel="stylesheet" />
     <!-- responsive style -->
     <link href="home/css/responsive.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -44,6 +47,61 @@
     @include('home.product')
     <!-- end product section -->
 
+    {{-- comments start --}}
+    <div style="text-align: center; padding-bottom:30px;">
+        <h1 style="font-size:30px; text-align:center; padding-top:20px; padding-bottom:20px;">Yorumlar</h1>
+        <form action="{{ url('add_comment') }}" method="POST">
+            @csrf
+            <textarea style="height: 150px; width:700px;" placeholder="Yorum Yazınız.." name="comment"></textarea><br>
+            <input type="submit" class="btn btn-primary" value="Yorum">
+        </form>
+    </div>
+    <div style="padding-left: 20%;">
+        <h1 style="font-size: 20px; padding-bottom:20px;">Tüm Yorumlar</h1>
+
+
+        @if (!empty($comment))
+            @foreach ($comment as $comment)
+                <div>
+                    <b>{{ $comment->name }}</b>
+                    <p>{{ $comment->comment }}</p>
+                    <a href="javascript::void(0);" style="color: blue;" onclick="reply(this)"
+                        data-Commentid="{{ $comment->id }}">Cevap Yaz</a>
+                    @foreach ($reply as $rep)
+                        @if ($rep->comment_id == $comment->id)
+                            <div style="padding-left:3%; padding-bottom:10px;">
+                                <b>{{ $rep->name }}</b>
+                                <p>{{ $rep->reply }}</p>
+                                <a href="javascript::void(0);" style="color: blue;" onclick="reply(this)"
+                                    data-Commentid="{{ $comment->id }}">Cevap Yaz</a>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            @endforeach
+        @else
+            <div class="row">
+                <div class="alert alert-danger col-md-6">
+                    <p>Görüntülenecek Yorum</p>
+                </div>
+            </div>
+        @endif
+
+
+        <div style="display: none;" class="replyDiv">
+            <form action="{{ url('add_reply') }}" method="POST">
+                @csrf
+                <input type="text" id="commentId" name="commentId" hidden="">
+                <textarea style="height:100px; width:700px;" name="reply" placeholder="Cevap Yaz..."></textarea><br>
+                <button type="submit" class="btn btn-warning">Cevap Yaz</button>
+                <a href="javascript::void(0);" class="btn btn-danger" onclick="reply_close(this)">Kapat</a>
+            </form>
+        </div>
+    </div>
+
+
+    {{-- comments end --}}
+
     <!-- subscribe section -->
     @include('home.subscrib')
     <!-- end subscribe section -->
@@ -60,6 +118,29 @@
 
         </p>
     </div>
+    <script type="text/javascript">
+        function reply(caller) {
+            document.getElementById('commentId').value = $(caller).attr('data-Commentid')
+
+            $('.replyDiv').insertAfter($(caller));
+            $('.replyDiv').show();
+        }
+
+        function reply_close(caller) {
+            $('.replyDiv').hide();
+        }
+    </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        var scrollpos = localStorage.getItem('scrollpos');
+        if (scrollpos) window.scrollTo(0, scrollpos);
+    });
+
+    window.onbeforeunload = function(e) {
+        localStorage.setItem('scrollpos', window.scrollY);
+    };
+</script>
+
     <!-- jQery -->
     <script src="home/js/jquery-3.4.1.min.js"></script>
     <!-- popper js -->
