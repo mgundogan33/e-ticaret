@@ -4,6 +4,15 @@
             <h2>
                 <span>Ürünler</span>
             </h2>
+            <br><br>
+
+            <div>
+                <form action="{{ url('product_search') }}" method="GET">
+                    @csrf
+                    <input style="width: 600px;" type="text" name="search" placeholder="Aranacak Kelime Yazınız...">
+                    <input type="submit" value="Arama">
+                </form>
+            </div>
         </div>
         <div class="row">
 
@@ -15,14 +24,15 @@
                                 <a href="{{ url('product_details', $products->id) }}" class="option1">
                                     Ürün Detayı
                                 </a>
-                                <form action="{{ url('add_cart', $products->id) }}" method="POST"> 
+                                <form action="{{ url('add_cart', $products->id) }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <input type="number" name="quantity" value="1" min="1" style="width: 100%;">
+                                            <input type="number" name="quantity" value="1" min="1"
+                                                style="width: 100%;">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="submit" value="Sepete At" >
+                                            <input type="submit" value="Sepete At">
                                         </div>
                                     </div>
                                 </form>
