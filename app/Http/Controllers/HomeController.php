@@ -7,14 +7,14 @@ use Stripe;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Reply;
+use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use App\Models\Comment;
-use App\Models\Reply;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -78,7 +78,8 @@ class HomeController extends Controller
                 }
 
                 $cart->save();
-                return redirect()->back()->with('message', 'Ürün Başarıyla Eklendi');
+                Alert::success('Ürün Eklendi','Ürün Başarıyla Sepete Eklendi');
+                return redirect()->back();
             } else {
                 $cart = new Cart;
                 $cart->name = $user->name;
@@ -99,8 +100,8 @@ class HomeController extends Controller
                 $cart->Product_id = $product->id;
                 $cart->quantity = $request->quantity;
                 $cart->save();
-                
-                return redirect()->back()->with('message', 'Ürün Başarıyla Eklendi');
+                Alert::success('Ürün Eklendi','Ürün Başarıyla Sepete Eklendi');
+                return redirect()->back();
             }
         } else {
             return redirect('login');

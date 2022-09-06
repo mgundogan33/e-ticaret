@@ -2,6 +2,9 @@
 <html>
 
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Basic -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -55,6 +58,7 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
     <div class="">
         @include('home.header')
         @if (session()->has('message'))
@@ -82,8 +86,7 @@
                         <th>{{ $cart->quantity }}</th>
                         <th>${{ $cart->price }} </th>
                         <th><img class="img_deg" src="/product/{{ $cart->image }}"></th>
-                        <th><a class="btn btn-danger"
-                                onclick="return confirm('Ürünü Kaldırmak İstediğnize Eminmisiniz')"
+                        <th><a class="btn btn-danger" onclick="confirmation(event)"
                                 href="{{ url('remove_cart', $cart->id) }}">Ürünü Kaldır</a></th>
                     </tr>
                     <?php $totalprice = $totalprice + $cart->price; ?>
@@ -96,7 +99,7 @@
             <div>
                 <h1 style="font-size: 25px; padding-bottom:15px; color:blue;">Ödeme Seçenekleri</h1>
                 <a href="{{ url('cash_order') }}" class="btn btn-danger">Kapıda Ödeme</a>
-                <a href="{{ url('stripe',$totalprice) }}" class="btn btn-danger">Kart İle Ödeme</a>
+                <a href="{{ url('stripe', $totalprice) }}" class="btn btn-danger">Kart İle Ödeme</a>
             </div>
 
         </div>
@@ -108,6 +111,26 @@
 
         </p>
     </div>
+
+    <script>
+        function confirmation(ev) {
+            ev.preventDefault();
+            var urlToRedirect = ev.currentTarget.getAttribute('href');
+            console.log(urlToRedirect);
+            swal({
+                    title: 'Ürünü Kaldırmak İstediğinize Eminmisiniz',
+                    text: 'bunu geri alamazsın',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willCancel) => {
+                    if (willCancel) {
+                        window.location.href = urlToRedirect;
+                    }
+                });
+        }
+    </script>
     <!-- jQery -->
     <script src="home/js/jquery-3.4.1.min.js"></script>
     <!-- popper js -->
