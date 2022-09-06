@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
-use App\Notifications\SendEmailNotification;
 // use Barryvdh\DomPDF\PDF;
-use PDF;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\SendEmailNotification;
+use Illuminate\Support\Facades\Notification;
 
 class AdminController extends Controller
 {
     public function view_category()
     {
-        $data = Category::all();
-        return view('admin.category', compact('data'));
+        if (Auth::id()) {
+            $data = Category::all();
+            return view('admin.category', compact('data'));
+        } else {
+            return redirect('login');
+        }
     }
     public function add_category(Request $request)
     {
@@ -77,23 +82,28 @@ class AdminController extends Controller
     }
     public function update_product_confirm(Request $request, $id)
     {
-        $product = Product::find($id);
-        $product->title = $request->title;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->discount_price = $request->discount_price;
-        $product->quantity = $request->quantity;
-        $product->category = $request->category;
-        $image = $request->image;
-        if ($image) {
-            $imagename = time() . '.' . $image->getClientOriginalExtension();
-            $request->image->move('product', $imagename);
+        if (Auth::id()) {
 
-            $product->image = $imagename;
+            $product = Product::find($id);
+            $product->title = $request->title;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->discount_price = $request->discount_price;
+            $product->quantity = $request->quantity;
+            $product->category = $request->category;
+            $image = $request->image;
+            if ($image) {
+                $imagename = time() . '.' . $image->getClientOriginalExtension();
+                $request->image->move('product', $imagename);
+
+                $product->image = $imagename;
+            }
+
+            $product->save();
+            return redirect()->back()->with('message', 'Ürün Güncellendi');
+        }else{
+            return redirect('login');
         }
-
-        $product->save();
-        return redirect()->back()->with('message', 'Ürün Güncellendi');
     }
     public function order()
     {
@@ -142,8 +152,8 @@ class AdminController extends Controller
     {
         $searchText = $request->search;
         $order = Order::where("name", "LIKE", "%$searchText%")
-        ->orWhere("phone", "LIKE", "%$searchText%")
-        ->orWhere("product_title", "LIKE", "%$searchText%")->get();
+            ->orWhere("phone", "LIKE", "%$searchText%")
+            ->orWhere("product_title", "LIKE", "%$searchText%")->get();
 
         return view('admin.order', compact('order'));
     }

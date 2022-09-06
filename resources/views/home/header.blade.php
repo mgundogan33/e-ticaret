@@ -4,7 +4,7 @@
             <div class="row m-auto">
                 <div class="col-md-2">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="images/logo.png" alt="#" class="w-100" /></a>
+                        <img src="/images/logo.png" alt="#" class="w-100" /></a>
                 </div>
                 <div class="col-md-10">
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -16,7 +16,8 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{ url('/') }}">Anasayfa <span class="sr-only">(current)</span></a>
+                                <a class="nav-link" href="{{ url('/') }}">Anasayfa <span
+                                        class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button"
@@ -28,7 +29,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="product.html">Ürünler</a>
+                                <a class="nav-link" href="{{ url('products') }}">Ürünler</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="blog_list.html">Blog</a>
@@ -57,7 +58,6 @@
                                         </x-app-layout>
 
                                     </li>
-                                    
                                 @else
                                     <li class="nav-item">
                                         <a class="btn btn-primary" href="{{ url('/login') }}" id="logincss">Giriş</a>
